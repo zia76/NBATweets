@@ -1,6 +1,7 @@
 ## NBATweets
 Final project for Udacity Data Visualization Course: collect tweets during the NBA finals and map them using D3.
 
+####Summary
 I created a pipeline that allows me to:
 - catch tweets from the twitter streaming API matching a given search query
 - filter the tweets for those containing GPS coordinate information
