@@ -1,0 +1,12 @@
+Heavy use of Mike Bostock's D3 documentation and examples especially:
+
+http://d3-geomap.github.io/map/choropleth/us-states/
+
+help figuring out the twitter API package for python:
+
+https://rawgit.com/ptwobrussell/Mining-the-Social-Web-2nd-Edition/master/ipynb/html/__Chapter%201%20-%20Mining%20Twitter%20(Full-Text%20Sampler).html
+
+and the tweepy API that I later switched to:
+
+http://adilmoujahid.com/posts/2014/07/twitter-analytics/
+
