@@ -8,9 +8,19 @@ I wanted to combine data munging techniques with visualization, so I created a p
 - output the coordinate information in csv to be read in D3
 - interactively visualize tweets on a global map using D3/JS/HTML (index.html)
 
-As an example, I collected tweets matching 3 queries during the last game of the 2015 NBA finals on June 16th. The queries were: 'Warriors', 'Cavaliers', and 'NBAfinals'. The visualization includes buttons to select each search term, and when pressed, you can watch the tweets appear on the map chronologically as the game proceeded.
+As an example use of this pipeline, I collected tweets matching 3 queries during the last game of the 2015 NBA finals on June 16th. The queries were: 'Warriors', 'Cavaliers', and 'NBAfinals'. The visualization includes buttons to select each search term, and when pressed, you can watch the tweets appear on the map chronologically as the game proceeded.
 
 *json tweet files not included here as they take up 3.4GB. Warriors5.json is the first 5 tweets for query "Warriors" for example.
+
+####Design
+The focus, scope and design of this project went through a lot of changes. Originally I was collecting tweets from different US states and analyzing their sentiment, then mapping state sentiment as a chloropleth. That project got hung up on technical grounds: I found that far less than 1% of tweets contain coordinate information for mapping. Given that the twitter RESTful API caps results at 100 per request, and caps requests at 15 per 15-minute window, It would have taken an unreasonable amount of time to collect enough geo-located tweets on all 50 states. My other option for collecting large numbers of tweets was to use the streaming API, but I would need to choose an upcoming event with a known time and for which I could predict popular hashtags. This is how I settled upon mapping tweets during the NBA Finals.
+
+In terms of design, I used Mike Bostock's off-the-shelf world map, which came in a nice muted grey that would serve as a good background for the data. I matched the title, button and legend font colors to the map. I then looked up the official hexadecimal colors for the Warriors and Cavaliers jerseys and used those for the respective data points. For the #NBAFinals data, I chose the color of a basketball.
+
+
+
+####Feedback
+
 
 ####Resources
 I made heavy use of Mike Bostock's D3 documentation and examples generally, in particular:
