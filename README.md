@@ -14,10 +14,13 @@ As an example, I collected tweets matching 3 queries during the last game of the
 
 ####Resources
 I made heavy use of Mike Bostock's D3 documentation and examples generally, in particular:
+
 http://d3-geomap.github.io/map/choropleth/world/
 
 I used this page for help figuring out the twitter API package for python:
+
 https://rawgit.com/ptwobrussell/Mining-the-Social-Web-2nd-Edition/master/ipynb/html/__Chapter%201%20-%20Mining%20Twitter%20(Full-Text%20Sampler).html
 
 and a great blog post that really helped me with the python tweepy library that I finally chose after exploring 3 or 4 different twitter API libraries:
+
 http://adilmoujahid.com/posts/2014/07/twitter-analytics/
