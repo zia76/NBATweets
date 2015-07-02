@@ -17,6 +17,10 @@ I made heavy use of Mike Bostock's D3 documentation and examples generally, in p
 
 http://d3-geomap.github.io/map/choropleth/world/
 
+I obviously needed to read the twitter API docs:
+
+https://dev.twitter.com
+
 I used this page for help figuring out the twitter API package for python:
 
 https://rawgit.com/ptwobrussell/Mining-the-Social-Web-2nd-Edition/master/ipynb/html/__Chapter%201%20-%20Mining%20Twitter%20(Full-Text%20Sampler).html
@@ -24,3 +28,5 @@ https://rawgit.com/ptwobrussell/Mining-the-Social-Web-2nd-Edition/master/ipynb/h
 and a great blog post that really helped me with the python tweepy library that I finally chose after exploring 3 or 4 different twitter API libraries:
 
 http://adilmoujahid.com/posts/2014/07/twitter-analytics/
+
+I also read Scott Murray's book "Interactive Data Visualization" cover to cover to get a handle on D3.
