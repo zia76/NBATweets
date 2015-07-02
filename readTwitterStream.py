@@ -19,6 +19,7 @@ outputfile = inputfile[0:-5] + "Coords.txt"
 tweets_data_path = inputfile
 locations = []
 numLines = 0
+numWithCoords = 0
 letter = inputfile[0] #for unique code
 tweets_file = open(tweets_data_path, "r")
 for line in tweets_file:
@@ -30,18 +31,19 @@ for line in tweets_file:
         if c:
             c = c['coordinates'] #actually located at tweet['coordinates']['coordinates']
         if c is not None:
+            numWithCoords += 1
+        if c is not None and t > 1434502799 and t < 1434513601: #time frame of game
         	locations.append([c[0], c[1], t, numLines])
     except:
         continue
 print "Number of tweets processed: ", numLines
-print "Number of tweets with coordinates: ", len(locations)
+print "Number of tweets with coordinates: ", numWithCoords
 
 f = open(outputfile, 'wt')
 try:
     writer = csv.writer(f)
     writer.writerow(["long", "lat", "time", "code"]) #code is uniqueID
     for location in locations:
-        if location[2] > 1434529744:
             writer.writerow(location)
 finally:
     f.close()
