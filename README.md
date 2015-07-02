@@ -19,7 +19,7 @@ http://d3-geomap.github.io/map/choropleth/world/
 
 I obviously needed to read the twitter API docs:
 
-https://dev.twitter.com
+https://dev.twitter.com/overview/documentation
 
 I used this page for help figuring out the twitter API package for python:
 
