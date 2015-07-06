@@ -28,7 +28,7 @@ This user also suggested adding a time legend to indicate the game's progress du
 
 User 2 was also confused as to what a single dot represented. He assumed (correctly) that a dot was a single tweet, but he wasn't sure, and suggested a legend. He also thought it would be cool and natural if the animation could be paused or advanced by hand. I completely agree, but this feature ended up being a little too technically involved for this project, as discussed above.
 
-User 3 liked the animation but wanted some kind of summary statistics or quantification of the data. I responded by adding a few stats as text in the Pacific Ocean.
+User 3 liked the animation but wanted some kind of summary statistics or quantification of the data. I responded by adding a few stats as text in the Pacific and Indian Oceans.
 
 ####Resources
 I made heavy use of Mike Bostock's D3 documentation and examples generally, in particular:
