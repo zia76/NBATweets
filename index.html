@@ -80,7 +80,8 @@
 	<body>
 		<div id = "title"> <h2>Who tweeted about the NBA finals</h2></div>
 		<div id = "subtitle"> <h3>During the final game of the 2015 season</h3></div>
-		<div id="map"></div>
+		<div id="map">
+		</div>
 
 		<script type="text/javascript">
 
@@ -111,6 +112,46 @@
 			}
 			else return "#FA8320" //NBA color: basketball orange
 		}
+
+		//posts statistics text overlayed on the world map
+		function postStats(dataset) {
+			data = [];
+			//generate the data array from input
+			if (typeof dataset[0] == "string") {
+				data = [{"t": dataset[0], "x": dataset[1], "y": dataset[2]}];
+			}
+			else {
+			for (i=0; i<dataset.length; i++) {
+				d = {"t": dataset[i][0], "x": dataset[i][1], "y": dataset[i][2]};
+				data.push(d);
+				}
+			}
+
+			//find any old text currently posted and remove
+			var stats = d3.select("body").select("#map").select("svg")
+				.select("g")
+			stats.attr("width", 750)
+                .attr("height", 500);
+			statsText = stats.selectAll("text")
+			statsText.remove();
+            
+            //post new text from dataset
+            var statsText = stats.selectAll("text")
+                .data(data)
+                .enter()
+                .append("text")
+            statsText.attr("x", function(d) {return d.x;})
+                .attr("y", function(d) {return d.y;})
+                .text(function(d) {return d.t;})
+                .style("font-family", "Lato")
+                .style("font-size", "16px")
+                .style("font-weight", 400)
+                .style("fill", "#7A7A7A")
+                .style("opacity", 0);
+            statsText.transition().delay(8000).duration(4000)
+            	.style("opacity", 1);
+		}
+
 
 		//loads data and adds points to map
 		function updateData(datafile) {
@@ -185,6 +226,7 @@
                 .attr("cy", 15)
                 .attr("r", 14);
 
+                //make the colored ball that moves across legend to indicate passage of time
                 var colorBall = d3.select('#timeBall').select('svg')
                 	.selectAll('circle')
                 	.data([15,315,0]);
@@ -196,6 +238,7 @@
                 	.transition().duration(8000).ease("linear")
                 	.attr("cx", 315);
 
+                
 		    })
 		}
 
@@ -233,19 +276,32 @@
         	     name="WarriorsButton" 
                  type="button" 
                  value="#Warriors"
-                 onclick=updateData("data/WarriorsCoords.txt") />
+                 onclick="updateData('data/WarriorsCoords.txt');
+                     postStats([['That\'s 4.9x More', 48, 370],
+                     ['Than #Cavaliers', 50, 385],
+                     ['#Warriors was Tweeted 21927', 5, 320],
+                     ['Times During the Game', 29, 335],
+                     ['Only 1 in 310 Warriors Tweets', 620, 440],
+                     ['had GPS Information', 658, 455]]);" />
              <input id = "option2"
                  class = "col-2 Cavalier"
-                 name="CavaliersButton" 
-                 type="button" 
+                 name="CavaliersButton"
+                 type="button" had GPS Information
                  value="#Cavaliers"
-                 onclick=updateData("data/CavaliersCoords.txt") />
+                 onclick="updateData('data/CavaliersCoords.txt');
+                     postStats([['That\'s 4.9x Fewer', 48, 370],
+                     ['Than #Warriors', 50, 385],
+                     ['#Cavaliers was Tweeted 4499', 5, 320],
+                     ['Times During the Game', 29, 335],
+                     ['Only 1 in 466 Cavaliers Tweets', 620, 440],
+                     ['had GPS Information', 658, 455]]);" />
              <input id = "option3"
                  class = "col-2 NBA"
                  name="NBAFinalsButton" 
                  type="button" 
                  value="#NBAFinals"
-                 onclick=updateData("data/NBAFinalsCoords.txt") />
+                 onclick="updateData('data/NBAFinalsCoords.txt');
+                     postStats([]);" />
         </div>
 	</body>
 </html>

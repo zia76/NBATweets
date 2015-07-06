@@ -22,11 +22,13 @@ Originally there was no timeline below the map. I received feedback that this wo
 
 
 ####Feedback
-User 1 thought the data point sizes were confusing. Intuitively, he thought areas with greater tweet density should have larger circles, which is to say, he thought I should be using circle radius to encode tweet density. He then realized that such an encoding wasn't naturally compatible with using a single point of standard radius for each tweet. Still, his feedback was that by using data points of noticeable radius/area I was implying using area as an encoding for tweet density, thus his confusion, whereas the use of a more point-like circle would not imply such an encoding. I responded by reducing the radii of the data points, though I kept them at a 4px radius because visually I didn't like going any smaller (I had been using 5-8px radius).
+User 1 thought the data point sizes were confusing. Intuitively, he thought areas with greater tweet density should have larger circles, which is to say, he thought I should be using circle radius to encode tweet density. He then realized that such an encoding wasn't naturally compatible with using a single point of standard radius for each tweet, without aggregation across geographic area. Still, his feedback was that by using data points of noticeable radius/area I was implying using area as an encoding for tweet density, thus his confusion, whereas the use of a more point-like circle would not imply such an encoding. I responded by reducing the radii of the data points, though I kept them at a 4px radius because visually I didn't like going any smaller (I had been using 5-8px radius).
 
 This user also suggested adding a time legend to indicate the game's progress during the animation. Without a legend, users had a relative sense of the passage of time, but no absolute knowledge of where they were in the game. In response, I added a time legend.
 
-User 2 was also confused as to what a single dot represented. He assumed (correctly) that a dot was a single tweet, but he wasn't sure, and suggested a legend. He also thought it would be cool and natural if the animation could be paused or anvanced by hand. I completely agree, but this feature ended up being a little too technically involved for this project, as discussed above.
+User 2 was also confused as to what a single dot represented. He assumed (correctly) that a dot was a single tweet, but he wasn't sure, and suggested a legend. He also thought it would be cool and natural if the animation could be paused or advanced by hand. I completely agree, but this feature ended up being a little too technically involved for this project, as discussed above.
+
+User 3 liked the animation but wanted some kind of summary statistics or quantification of the data. I responded by adding a few stats as text in the Pacific Ocean.
 
 ####Resources
 I made heavy use of Mike Bostock's D3 documentation and examples generally, in particular:
