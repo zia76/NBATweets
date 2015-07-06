@@ -47,4 +47,8 @@ and a great blog post that really helped me with the python tweepy library that 
 
 http://adilmoujahid.com/posts/2014/07/twitter-analytics/
 
-I also read Scott Murray's book "Interactive Data Visualization" cover to cover to get a handle on D3.
+The following page was helpful for adding textual svg elements:
+
+https://www.dashingd3js.com/svg-text-element
+
+I also read Scott Murray's book "Interactive Data Visualization" cover-to-cover to get a handle on D3.
