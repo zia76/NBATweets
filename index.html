@@ -271,20 +271,9 @@
 		</div>
 
         <div id = "option">
-        	 <input id = "option1"
-        	     class = "col-2 leftButton Warrior"
-        	     name="WarriorsButton" 
-                 type="button" 
-                 value="#Warriors"
-                 onclick="updateData('data/WarriorsCoords.txt');
-                     postStats([['That\'s 4.9x More', 48, 370],
-                     ['Than #Cavaliers', 50, 385],
-                     ['#Warriors was Tweeted 21927', 5, 320],
-                     ['Times During the Game', 29, 335],
-                     ['Only 1 in 310 Warriors Tweets', 620, 440],
-                     ['had GPS Information', 658, 455]]);" />
-             <input id = "option2"
-                 class = "col-2 Cavalier"
+        	 
+             <input id = "option1"
+                 class = "col-2 Cavalier leftButton"
                  name="CavaliersButton"
                  type="button" had GPS Information
                  value="#Cavaliers"
@@ -294,6 +283,18 @@
                      ['#Cavaliers was Tweeted 4499', 5, 320],
                      ['Times During the Game', 29, 335],
                      ['Only 1 in 466 Cavaliers Tweets', 620, 440],
+                     ['had GPS Information', 658, 455]]);" />
+             <input id = "option2"
+        	     class = "col-2 Warrior"
+        	     name="WarriorsButton" 
+                 type="button" 
+                 value="#Warriors"
+                 onclick="updateData('data/WarriorsCoords.txt');
+                     postStats([['That\'s 4.9x More', 48, 370],
+                     ['Than #Cavaliers', 50, 385],
+                     ['#Warriors was Tweeted 21927', 5, 320],
+                     ['Times During the Game', 29, 335],
+                     ['Only 1 in 310 Warriors Tweets', 620, 440],
                      ['had GPS Information', 658, 455]]);" />
              <input id = "option3"
                  class = "col-2 NBA"
