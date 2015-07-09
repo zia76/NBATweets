@@ -14,13 +14,17 @@ p.add_option('-i', '--fin', dest = 'inputfile')
 options, arguments = p.parse_args()
 
 inputfile = options.inputfile
-outputfile = inputfile[0:-5] + "Coords.txt"
+outputfile = inputfile[0:-5] + "Coords.txt" //[0:-5] strips the .json ending
 
 tweets_data_path = inputfile
 locations = []
 numLines = 0
 numWithCoords = 0
 letter = inputfile[0] #for unique code
+
+gameStartTime = 1434502799 #Unix timestamp for tipoff time
+gameEndTime = 1434513601 #Unix timestamp for end of game
+
 tweets_file = open(tweets_data_path, "r")
 for line in tweets_file:
     try:
@@ -32,7 +36,7 @@ for line in tweets_file:
             c = c['coordinates'] #actually located at tweet['coordinates']['coordinates']
         if c is not None:
             numWithCoords += 1
-        if c is not None and t > 1434502799 and t < 1434513601: #time frame of game
+        if c is not None and t > gameStartTime and t < gameEndTime: 
         	locations.append([c[0], c[1], t, numLines])
     except:
         continue
