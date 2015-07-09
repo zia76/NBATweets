@@ -1,0 +1,163 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html lang="en">
+	<head>
+		<title>Who's tweeting about the NBA finals</title>
+		<meta charset="utf-8">
+		<link href="/d3-geomap-0.1.2/css/d3.geomap.css" rel="stylesheet">
+		<link href='http://fonts.googleapis.com/css?family=Lato:300,400' rel='stylesheet' type='text/css'>
+		<script src="d3-geomap-0.1.2/js/d3.js" charset="utf-8"></script>
+		<script src="/d3-geomap-0.1.2/vendor/d3.geomap.dependencies.min.js"></script>
+		<script src="d3-geomap-0.1.2/js/d3.geomap.js" charset="utf-8"></script>
+		<style type="text/css">
+			#title h2 {
+			  font-family: 'Lato', sans-serif;
+              color: #6D6D6D;
+              text-align: center;
+              margin-bottom: 0px;
+            }
+   			#subtitle h3 {
+   			  font-family: 'Lato', sans-serif;
+              color: #A0A0A0;
+              text-align: center;
+              margin-top: 0px;
+              margin-bottom: 5px;
+            }
+            #map svg {
+            	margin-left: auto;
+            	margin-right: auto;
+            	display:block;            }
+            .legend circle {
+  				fill: none;
+  				stroke: #ccc;
+			}
+			
+			.col-2 {
+    		    width: 16.66%;
+    		    margin-left: 1.66%;
+    		    margin-right: 1.66%;
+    		    font-family: 'Lato', sans-serif;
+    		    height: 30px;
+			}
+			.leftButton {
+				margin-left: 21.66%;
+				height: 30px;
+			}
+			.Warrior {
+				height: 30px;
+			}
+		</style>
+
+	</head>
+	<body>
+		<div id = "title"> <h2>Who tweeted about the NBA finals</h2></div>
+		<div id = "subtitle"> <h3>During the final game of the 2015 season</h3></div>
+
+
+		<div id="map"></div>
+		<script type="text/javascript">
+		//Width and height
+		var w = 600;
+		var h = 500;
+		var format = function(d) {
+    		return d3.format('.04r')(d);
+			}
+		var projection = d3.geo.mercator()
+			.scale([150]);
+		function getLongLat(x, a){
+			if (x === null) {
+				return -10;
+			}
+			else {
+				return x[a];
+			}
+		}
+		function GetColor(f) {
+			if (f.slice(5,13) == "Warriors") {
+				return "#006BB6"
+			}
+			else if (f.slice(5,14) == "Cavaliers") {
+				return "#860038"
+			}
+			else return "#FA8320" //NBA color
+		}
+		//Loads in locations/points data
+		function updateData(datafile) {
+			d3.csv(datafile, function(dataset) {
+				console.log(d3.selectAll('circle')[0].length);
+				if (d3.selectAll('circle')[0].length != 0) {
+					var oldCircles = d3.selectAll('circle');
+					oldCircles.style("fill", "none")
+					.transition()
+					.duration(750)
+					.attr('r', 0)
+					oldCircles.exit().remove();
+				};
+			    var maxTime = d3.max(dataset, function(d) { return d.time; });
+			    var minTime = d3.min(dataset, function(d) { return d.time; });
+			    var duration = maxTime - minTime;
+			    var bubbles = d3.select("body").select("#map").select("svg")
+			    .selectAll("circle")
+			    .data(dataset, function(d) { return d.lat; });
+			    	//need this key function so that new dots don't bind to same indices
+			    bubbles.style("fill", "none")
+			    .style("stroke", GetColor(datafile))
+				.style("stroke-opacity", 0.5) //can u make it a function of radius?
+				.style("stroke-width", "2px")
+				.transition()
+				.duration(500)
+				.ease('circle')
+				.attr('r', 2);
+				bubbles.exit().remove();
+				var newBubbles = bubbles.enter()
+				.append("circle");
+				newBubbles.attr("cx", function(d) {
+					var x = projection([d.long, d.lat]);
+					return getLongLat(x, 0);
+				})
+				.attr("cy", function(d) {
+					var x = projection([d.long, d.lat]);
+					return getLongLat(x, 1);
+				})
+				.style("fill", "none") // was originally GetColor(datafile)
+				.style("stroke", GetColor(datafile))
+				.style("stroke-opacity", 0.5)
+				.style("stroke-width", "2px")
+				.attr("r", 0)
+                .transition().duration(15000)
+                .delay(function(d) { return 8000 * (d.time - minTime) / duration; })
+                .attr("r", 1000);
+                //bubbles.exit().remove();
+		    })
+		}
+		var map = d3.geomap()
+    		.geofile('/d3-geomap-0.1.2/topojson/world/countries.json')
+    		.projection(d3.geo.mercator)
+			.scale([150]);
+    		
+		d3.select('#map')
+    		.call(map.draw, map);
+		
+		</script>
+
+        <div id = "option">
+        	 <input id = "option1"
+        	     class = "col-2 leftButton Warrior"
+        	     name="WarriorsButton" 
+                 type="button" 
+                 value="#Warriors"
+                 onclick=updateData("data/WarriorsCoords.txt") />
+             <input id = "option2"
+                 class = "col-2 Cavalier"
+                 name="CavaliersButton" 
+                 type="button" 
+                 value="#Cavaliers"
+                 onclick=updateData("data/CavaliersCoords.txt") />
+             <input id = "option3"
+                 class = "col-2 NBA"
+                 name="NBAFinalsButton" 
+                 type="button" 
+                 value="#NBAFinals"
+                 onclick=updateData("data/NBAFinalsCoords.txt") />
+        </div>
+	</body>
+</html>
