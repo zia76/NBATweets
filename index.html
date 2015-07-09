@@ -25,6 +25,14 @@
               margin-bottom: 5px;
             }
 
+            text {
+            	font-family: 'Lato', sans-serif;
+                font-size: 16px;
+                font-weight: 400;
+                color: #7A7A7A;
+                opacity: 0;
+            }
+
             #map svg {
             	margin-left: auto;
             	margin-right: auto;
@@ -113,9 +121,25 @@
 			else return "#FA8320" //NBA color: basketball orange
 		}
 
+		//generate a data array from passed in list of lists of text and x,y coords
+		function generateDataset(dataset) {
+			var data = [];
+			if (typeof dataset[0] == "string") { //if so it's a single text/coord set
+				data = [{"t": dataset[0], "x": dataset[1], "y": dataset[2]}];
+			}
+			else { //must loop through to process all text
+			for (i=0; i<dataset.length; i++) {
+				d = {"t": dataset[i][0], "x": dataset[i][1], "y": dataset[i][2]};
+				data.push(d);
+				}
+			}
+			return data;
+		}
+
+
 		//posts statistics text overlayed on the world map
 		function postStats(dataset) {
-			data = [];
+			var data = generateDataset(dataset);
 			//generate the data array from arguments
 			if (typeof dataset[0] == "string") {
 				data = [{"t": dataset[0], "x": dataset[1], "y": dataset[2]}];
@@ -251,6 +275,32 @@
 
 		d3.select('#map')
     		.call(map.draw, map);
+
+    	//add instructions text to map
+			var instructions = d3.select("body").select("#map").select("svg").select("g")
+			instructions.attr("width", 750).attr("height", 500);
+			
+            
+            //post new text from dataset
+            var instructionText = [['Each circle represents', 570, 430],
+                     ['a single tweet', 600, 445],
+                     ['Click on a box below to see', 555, 380],
+                     ['tweets for each hashtag', 564, 395]];
+            var data = generateDataset(instructionText);
+            var text = instructions.selectAll("text")
+                .data(data)
+                .enter()
+                .append("text");
+            text.attr("x", function(d) {return d.x;})
+                .attr("y", function(d) {return d.y;})
+                .text(function(d) {return d.t;})
+                .style("font-family", "Lato")
+                .style("font-size", "16px")
+                .style("font-weight", 400)
+                .style("fill", "#7A7A7A")
+                .style("opacity", 0);
+            text.transition().delay(1000).duration(2000)
+            	.style("opacity", 1);
 
 		</script>
 
