@@ -7,17 +7,17 @@
 		<link href='http://fonts.googleapis.com/css?family=Lato:300,400' rel='stylesheet' type='text/css'>
 		<script src="d3-geomap-0.1.2/js/d3.js" charset="utf-8"></script>
 		<script src="/d3-geomap-0.1.2/vendor/d3.geomap.dependencies.min.js"></script>
-		<script src="d3-geomap-0.1.2/js/d3.geomap.js" charset="utf-8"></script>
+		<script src="d3-geomap-0.1.2/js/d3.geomap.nozoomnopan.js" charset="utf-8"></script>
 		<style type="text/css">
 
-			#title h2 {
+			.title h2 {
 			  font-family: 'Lato', sans-serif;
               color: #6D6D6D;
               text-align: center;
               margin-bottom: 0px;
             }
 
-   			#subtitle h3 {
+   			.subtitle h3 {
    			  font-family: 'Lato', sans-serif;
               color: #A0A0A0;
               text-align: center;
@@ -28,8 +28,7 @@
             text {
             	font-family: 'Lato', sans-serif;
                 font-size: 16px;
-                font-weight: 400;
-                color: #7A7A7A;
+                font-weight: 350;
                 opacity: 0;
             }
 
@@ -38,6 +37,30 @@
             	margin-right: auto;
             	display:block;
             }
+
+            .chart svg {
+            	margin-left: auto;
+            	margin-right: auto;
+            	display:block;
+            	font-family: 'Lato', sans-serif;
+              	color: #6D6D6D;
+            }
+
+            #chart1 rect {
+  				fill: #006BB6;
+  				shape-rendering: crispEdges;
+			}
+
+			#chart2 rect {
+  				fill: #860038;
+  				shape-rendering: crispEdges;
+			}
+
+			.axis path, .axis line {
+  				fill: none;
+  				stroke: #000;
+  				shape-rendering: crispEdges;
+			}
 
             .legend {
             	font-family: 'Lato', sans-serif;
@@ -59,9 +82,12 @@
     		    height: 30px;
 			}
 
+			.col-6 {
+    			width: 50%;
+			}
+
 			.leftButton {
 				margin-left: 21.66%;
-				height: 30px;
 			}
 
 			.Warrior {
@@ -80,14 +106,33 @@
 			}
 
 
+			#charts {
+				height: 300px;
+				margin-top: 40px;
+				margin-bottom: 90px;
+
+			}
+
+			.axis path,
+			.axis line {
+				fill: none;
+				stroke: black;
+				shape-rendering: crispEdges;
+			}
+
+			.axis text {
+				font-family: sans-serif;
+				font-size: 11px;
+				opacity: 1;
+			}
 
 
 		</style>
 
 	</head>
 	<body>
-		<div id = "title"> <h2>Who tweeted about the NBA finals</h2></div>
-		<div id = "subtitle"> <h3>During the final game of the 2015 season</h3></div>
+		<div id = "title" class="title"> <h2>Who tweeted about the NBA finals</h2></div>
+		<div id = "subtitle" class="subtitle"> <h3>During the final game of the 2015 season</h3></div>
 		<div id="map">
 		</div>
 
@@ -167,11 +212,7 @@
             statsText.attr("x", function(d) {return d.x;})
                 .attr("y", function(d) {return d.y;})
                 .text(function(d) {return d.t;})
-                .style("font-family", "Lato")
-                .style("font-size", "16px")
-                .style("font-weight", 400)
-                .style("fill", "#7A7A7A")
-                .style("opacity", 0);
+                .style("fill", "#7A7A7A");
             statsText.transition().delay(8000).duration(4000)
             	.style("opacity", 1);
 		}
@@ -277,11 +318,11 @@
     		.call(map.draw, map);
 
     	//add instructions text to map
+    		//create text container
 			var instructions = d3.select("body").select("#map").select("svg").select("g")
 			instructions.attr("width", 750).attr("height", 500);
 			
-            
-            //post new text from dataset
+            //post text
             var instructionText = [['Each circle represents', 570, 430],
                      ['a single tweet', 600, 445],
                      ['Click on a box below to see', 555, 380],
@@ -294,11 +335,7 @@
             text.attr("x", function(d) {return d.x;})
                 .attr("y", function(d) {return d.y;})
                 .text(function(d) {return d.t;})
-                .style("font-family", "Lato")
-                .style("font-size", "16px")
-                .style("font-weight", 400)
-                .style("fill", "#7A7A7A")
-                .style("opacity", 0);
+                .style("fill", "#7A7A7A");
             text.transition().delay(1000).duration(2000)
             	.style("opacity", 1);
 
@@ -354,5 +391,106 @@
                  onclick="updateData('data/NBAFinalsCoords.txt');
                      postStats([]);" />
         </div>
+
+        <div id = "charts">
+          <div2 id = "leftChart" class="col-6">
+			<div3 id = "title2" class="title"> <h2>Warriors Tweets</h2></div3>
+			<div3 id = "subtitle2" class= "subtitle"> <h3>During the Game</h3></div3>
+        	<div3 id="chart1" class="chart left"> </div3>
+          </div2>
+          <div2 id = "rightChart" class="col-6">
+			<div3 id = "title3" class = "title"> <h2>Cavaliers Tweets</h2></div3>
+			<div3 id = "subtitle3" class= "subtitle"> <h3>During the Game</h3></div3>
+        	<div3 id="chart2" class="chart right"> </div3>
+          </div2>
+        </div>
+
+		<script type="text/javascript">
+
+		function drawHistogram(datafile, container) {
+		d3.csv(datafile, function(data) {
+			var numBins = 16; //for splitting up dataset into histogram bins
+
+			var maxTime = d3.max(data, function(d) { return d.time; });
+			var minTime = d3.min(data, function(d) { return d.time; });
+			var duration = maxTime - minTime;
+			console.log(minTime, maxTime, duration);
+
+			//convert units from unix timestamp to minutes since game start
+			var map = data.map(function(d) { return parseInt(d.time); })
+
+			var histogram = d3.layout.histogram()
+				.bins(numBins)
+				(map)
+
+			//var yMax = d3.max(histogram, function(d) { return d.y;});
+			//hard-coding 1845, the yMax for Warriors w 16 bins, for consistent scale w both charts:
+			var yMax = 1845;
+
+			var width = 330;
+			var height = 200;
+			var barpadding = 1;
+			var padding = 40;
+
+			var canvas = d3.select(container).append('svg')
+				.attr('width', width + 2 * padding)
+				.attr('height', height + 2 * padding);
+
+			var bars = canvas.selectAll('.bar')
+				.data(histogram)
+				.enter()
+				.append('g')
+
+			console.log(d3.max(histogram, function(d) { return d.y;}));
+			bars.append('rect')
+				.attr('x', function(d) {return ((d.x - minTime) / duration * width) + padding;})
+				.attr('y', function(d) {return (height + padding) - height * (d.y / yMax);})
+				.attr('width', function(d) {return (d.dx / duration * width) - barpadding;})
+				.attr('height', function(d) { return height * (d.y / yMax);})
+				.attr('fill', "#006BB6")
+				.attr('opacity', 0.75);
+
+			//Create scale functions
+			var xScale = d3.scale.linear()
+				.domain([minTime, maxTime])
+				.range([padding, width + padding]);
+
+			var yScale = d3.scale.linear()
+				.domain([0, yMax / duration * numBins]) //converts to tweets per minute
+				.range([height + padding, padding]);
+
+			//Define X axis
+			var xAxis = d3.svg.axis()
+							  .scale(xScale)
+							  .orient("bottom")
+							  .ticks(5);
+
+			//Define Y axis
+			var yAxis = d3.svg.axis()
+							  .scale(yScale)
+							  .orient("left")
+							  .ticks(5);
+
+			//Create X axis
+			canvas.append("g")
+				.attr("class", "axis")
+				.attr("transform", "translate(0," + (height + padding) + ")")
+				.call(xAxis);
+			
+			//Create Y axis
+			canvas.append("g")
+				.attr("class", "axis")
+				.attr("transform", "translate(" + padding + ",0)")
+				.call(yAxis);
+
+		})
+		}
+
+		    drawHistogram('data/WarriorsTweetTimes.csv', '#chart1');
+		    drawHistogram('data/CavaliersTweetTimes.csv', '#chart2');
+
+
+		</script>
+
 	</body>
 </html>
