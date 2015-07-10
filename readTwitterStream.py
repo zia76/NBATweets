@@ -14,7 +14,7 @@ p.add_option('-i', '--fin', dest = 'inputfile')
 options, arguments = p.parse_args()
 
 inputfile = options.inputfile
-outputfile = inputfile[0:-5] + "Coords.txt" //[0:-5] strips the .json ending
+outputfile = inputfile[0:-5] + "Coords.txt" #[0:-5] strips the .json ending
 
 tweets_data_path = inputfile
 locations = []
