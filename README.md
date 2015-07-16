@@ -4,8 +4,8 @@ Final project for Udacity Data Visualization Course: collect tweets during the N
 ####Summary
 I wanted to combine data munging techniques with visualization, so I created a pipeline that allows me to:
 - catch tweets from the twitter streaming API matching a given search query, outputting tweets in json (catchTwitterStream.py)
-- filter the tweets for those containing GPS coordinate information and output the coordinates in csv (readTwitterStream.py)
-- load the tweet coordinates into d3 and interactively visualize tweets on a global map (index.html)
+- extract tweet timestamps (readTwitterStream2.py) and filter the tweets for those containing GPS coordinate information (readTwitterStream.py) and output the times/coordinates in csv,  and 
+- load the tweet data into d3 and interactively visualize them on a global map (index.html)
 
 As an example use of this pipeline, I collected tweets matching 3 queries during the last game of the 2015 NBA finals on June 16th. The queries were: 'Warriors', 'Cavaliers', and 'NBAfinals'. The visualization includes buttons to select each search term, and when pressed, you can watch the tweets appear on the map chronologically as the game proceeds.
 
@@ -34,7 +34,7 @@ The main critique in the review of my first project submission was that the visu
 
 I also needed to fix a bug: d3.geomap has built-in zoom- and pan-on-click behavior that does not redraw appended data points scaled and transformed to the new map area. I had to modify the geomap source code to turn off these features. Eventually, I'd like to figure out how to redraw the data automatically upon zoom-in.
 
-####Summary
+####Final thoughts
 All in all, my intention was to communicate three main trends in the data: 
 * where in the world people were watching the game (primarily the US, though it was unexpectedly popular in the Philippines, for example)
 * how tweet frequency changed as the day/game progressed (trended upward and peaked at game's end), and
