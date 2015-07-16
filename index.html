@@ -25,17 +25,34 @@
               margin-bottom: 5px;
             }
 
+            #chart-title {
+              margin-top: 20px;
+            }
+
+            #chart-subtitle {
+              margin-bottom: 0px;
+            }
+
+            #chart-note {
+              margin-top: 30px;
+              margin-bottom: 50px;
+              margin-left: 20%;
+              margin-right: 20%;
+              display:block;
+
+            }
+
             text {
-            	font-family: 'Lato', sans-serif;
-                font-size: 16px;
-                font-weight: 350;
-                opacity: 0;
+              font-family: 'Lato', sans-serif;
+              font-size: 16px;
+              font-weight: 350;
+              opacity: 0;
             }
 
             #map svg {
-            	margin-left: auto;
-            	margin-right: auto;
-            	display:block;
+              margin-left: auto;
+              margin-right: auto;
+              display:block;
             }
 
             .chart svg {
@@ -46,21 +63,20 @@
               	color: #6D6D6D;
             }
 
-            #chart1 rect {
-  				fill: #006BB6;
-  				shape-rendering: crispEdges;
-			}
+            #option1 {
+            	background: rgba(134, 0, 56, 0.8);
+            	font-family: 'Lato', sans-serif;
+            	font-size: 18px;
+                font-weight: 400;
+                margin-left: 35.5%;
+            }
 
-			#chart2 rect {
-  				fill: #860038;
-  				shape-rendering: crispEdges;
-			}
-
-			.axis path, .axis line {
-  				fill: none;
-  				stroke: #000;
-  				shape-rendering: crispEdges;
-			}
+            #option2 {
+            	background: rgba(0, 107, 182, 0.8);
+            	font-family: 'Lato', sans-serif;
+            	font-size: 18px;
+                font-weight: 400;
+            }
 
             .legend {
             	font-family: 'Lato', sans-serif;
@@ -75,39 +91,34 @@
 			}
 
 			.col-2 {
-    		    width: 16.66%;
-    		    margin-left: 1.66%;
-    		    margin-right: 1.66%;
+    		    width: 12%;
+    		    margin-left: 2.5%;
+    		    margin-right: 2.5%;
     		    font-family: 'Lato', sans-serif;
     		    height: 30px;
 			}
 
-			.col-6 {
-    			width: 50%;
-			}
-
-			.leftButton {
-				margin-left: 21.66%;
-			}
-
-			.Warrior {
-				height: 30px;
-			}
 
 			#timeLegend {
-				width: 330px;
+				margin-top: 5px;
+				width: 770px;
 				height: 20px;
+			}
+
+			#tickLegend {
+				width: 770px;
+				height: 25px;
 			}
 
 			#timeBall {
 				margin: 0 auto;
-				width: 330px;
+				width: 770px;
 				height: 40px;
 			}
 
 
 			#charts {
-				height: 300px;
+				height: 330px;
 				margin-top: 40px;
 				margin-bottom: 90px;
 
@@ -132,7 +143,7 @@
 	</head>
 	<body>
 		<div id = "title" class="title"> <h2>Who tweeted about the NBA finals</h2></div>
-		<div id = "subtitle" class="subtitle"> <h3>During the final game of the 2015 season</h3></div>
+		<div id = "subtitle" class="subtitle"> <h3>The day of the final game of the 2015 season</h3></div>
 		<div id="map">
 		</div>
 
@@ -160,10 +171,7 @@
 			if (f.slice(5,13) == "Warriors") {
 				return "#006BB6" //Warriors blue
 			}
-			else if (f.slice(5,14) == "Cavaliers") {
-				return "#860038" //Cavaliers burgundy
-			}
-			else return "#FA8320" //NBA color: basketball orange
+			else return "#860038" //Cavaliers burgundy
 		}
 
 		//generate a data array from passed in list of lists of text and x,y coords
@@ -275,7 +283,7 @@
 					.style("stroke-width", 1)
 					.style("stroke", "#6D6D6D")
 					.attr("r", 0)
-                	.transition().duration(2500)
+                	.transition().duration(1500)
                 	.delay(function(d) { return 8000 * (d.time - minTime) / duration; })
                 	.attr("r", 20)
                 	.style("opacity", 0); //fades out to invisible, but objects still exist
@@ -283,7 +291,7 @@
                 //re-draw map legend circles, which are erased each button press
                 var balls = d3.select('#timeBall').select('svg');
                 var endBalls = balls.selectAll('circle')
-                	.data([15,315]);
+                	.data([15,755]);
                 endBalls.enter().append('circle')
                 .attr("cx", function(d) {
                 	return d;
@@ -294,14 +302,14 @@
                 //make the colored ball that moves across legend to indicate passage of time
                 var colorBall = d3.select('#timeBall').select('svg')
                 	.selectAll('circle')
-                	.data([15,315,0]);
+                	.data([15,755,0]);
                 colorBall.enter().append('circle')
                 	.attr("cx", 15).attr("cy", 15).attr("r", 14)
                 	.style("fill", GetColor(datafile))
                 	.style("opacity", 1)
 					.style("stroke-width", 0)
                 	.transition().duration(8000).ease("linear")
-                	.attr("cx", 315);
+                	.attr("cx", 755);
 
                 
 		    })
@@ -319,7 +327,7 @@
 
     	//add instructions text to map
     		//create text container
-			var instructions = d3.select("body").select("#map").select("svg").select("g")
+			var instructions = d3.select("body").select("#map").select("svg").select("g");
 			instructions.attr("width", 750).attr("height", 500);
 			
             //post text
@@ -331,163 +339,239 @@
             var text = instructions.selectAll("text")
                 .data(data)
                 .enter()
-                .append("text");
-            text.attr("x", function(d) {return d.x;})
+                .append("text")
+            	.attr("x", function(d) {return d.x;})
                 .attr("y", function(d) {return d.y;})
                 .text(function(d) {return d.t;})
-                .style("fill", "#7A7A7A");
-            text.transition().delay(1000).duration(2000)
+                .style("fill", "#7A7A7A")
+            	.transition().delay(1000).duration(2000)
             	.style("opacity", 1);
 
 		</script>
 
 
 		<div id="timeLegend" class="legend">
-			<t style="margin-left:5px;">Q1</t>
-			<t style="margin-left:49px;">Q2</t>
-			<t style="margin-left:49px;">Q3</t>
-			<t style="margin-left:49px;">Q4</t>
-			<t style="margin-left:49px;">End</t>
+			<t style="margin-left:0px;">Noon</t>
+			<t style="margin-left:436px;">Tipoff</t>
+			<t style="margin-left:38px;">Halftime</t>
+			<t style="margin-left:78px;">End</t>
+		</div>
+		<div id="tickLegend" class="legend">
+			<t style="margin-left:13px;">|</t>
+			<t style="margin-left:475px;">|</t>
+			<t style="margin-left:72px;">|</t>
+			<t style="margin-left:22px;">|</t>
+			<t style="margin-left:101px;">|</t>
 		</div>
 		
 		<div id="timeBall" class="legend">
-			<svg width="330px" height="40px">
+			<svg width="840px" height="40px">
 				<circle cx="15" cy="15" r="14"></circle>
-				<circle cx="315" cy="15" r="14"></circle>
+				<circle cx="755" cy="15" r="14"></circle>
 			</svg>
 		</div>
 
         <div id = "option">
         	 
              <input id = "option1"
-                 class = "col-2 Cavalier leftButton"
+                 class = "col-2"
                  name="CavaliersButton"
-                 type="button" had GPS Information
+                 type="button"
                  value="#Cavaliers"
-                 onclick="updateData('data/CavaliersCoords.txt');
-                     postStats([['That\'s 4.9x Fewer', 48, 370],
-                     ['Than #Warriors', 50, 385],
-                     ['#Cavaliers was Tweeted 4499', 5, 320],
-                     ['Times During the Game', 29, 335],
-                     ['Only 1 in 466 Cavaliers Tweets', 620, 440],
-                     ['had GPS Information', 658, 455]]);" />
+                 onclick="updateData('data/CavaliersCoords.csv');
+                     postStats([['Impressive, but still 4.9x', 48, 370],
+                     ['fewer than #Warriors', 54, 385],
+                     ['#Cavaliers was tweeted 94,673 times', 2, 320],
+                     ['over 9.5 hours around game time', 21, 335],
+                     ['Only 1 in 466 Cavaliers tweets', 620, 440],
+                     ['had GPS information', 658, 455]]);" />
              <input id = "option2"
         	     class = "col-2 Warrior"
         	     name="WarriorsButton" 
                  type="button" 
                  value="#Warriors"
-                 onclick="updateData('data/WarriorsCoords.txt');
-                     postStats([['That\'s 4.9x More', 48, 370],
-                     ['Than #Cavaliers', 50, 385],
-                     ['#Warriors was Tweeted 21927', 5, 320],
-                     ['Times During the Game', 29, 335],
-                     ['Only 1 in 310 Warriors Tweets', 620, 440],
-                     ['had GPS Information', 658, 455]]);" />
-             <input id = "option3"
-                 class = "col-2 NBA"
-                 name="NBAFinalsButton" 
-                 type="button" 
-                 value="#NBAFinals"
-                 onclick="updateData('data/NBAFinalsCoords.txt');
-                     postStats([]);" />
+                 style="background-color: #006BB6"
+                 onclick="updateData('data/WarriorsCoords.csv');
+                     postStats([['That\'s 4.9x more', 66, 370],
+                     ['than #Cavaliers', 71, 385],
+                     ['#Warriors was tweeted 531,415 times', 0, 320],
+                     ['over 9.5 hours on game day', 36, 335],
+                     ['Only 1 in 310 Warriors tweets', 620, 440],
+                     ['had GPS information', 658, 455]]);" />
         </div>
 
         <div id = "charts">
-          <div2 id = "leftChart" class="col-6">
-			<div3 id = "title2" class="title"> <h2>Warriors Tweets</h2></div3>
-			<div3 id = "subtitle2" class= "subtitle"> <h3>During the Game</h3></div3>
-        	<div3 id="chart1" class="chart left"> </div3>
-          </div2>
-          <div2 id = "rightChart" class="col-6">
-			<div3 id = "title3" class = "title"> <h2>Cavaliers Tweets</h2></div3>
-			<div3 id = "subtitle3" class= "subtitle"> <h3>During the Game</h3></div3>
-        	<div3 id="chart2" class="chart right"> </div3>
-          </div2>
+			<div2 id = "chart-title" class="title"> <h2>Tweets Per Minute</h2></div2>
+			<div2 id = "chart-subtitle" class= "subtitle"> <h3>on Game Day</h3></div2>
+        	<div2 id = "chart" class="chart"></div2>
+        </div>
+        <div id = "chart-note" class = "subtitle">
+        	<h3>Tipoff was at 6:12pm Pacific.</h3>
+        	<h3>When the Warriors won 105-97 at 8:58pm, tweets containing "#Warriors" exceeded 1% of total global tweet traffic, and could not even be counted using the Twitter API.</h3>
         </div>
 
 		<script type="text/javascript">
 
-		function drawHistogram(datafile, container) {
-		d3.csv(datafile, function(data) {
-			var numBins = 16; //for splitting up dataset into histogram bins
+		function drawHistogram(datafile1, datafile2, container) {
 
-			var maxTime = d3.max(data, function(d) { return d.time; });
-			var minTime = d3.min(data, function(d) { return d.time; });
-			var duration = maxTime - minTime;
-			console.log(minTime, maxTime, duration);
+			var numBins = 60; //for splitting up dataset into histogram bins
 
-			//convert units from unix timestamp to minutes since game start
-			var map = data.map(function(d) { return parseInt(d.time); })
-
-			var histogram = d3.layout.histogram()
-				.bins(numBins)
-				(map)
-
+			//hard-coding yMax for consistent scale w both charts
+			//I got it programmatically inside d3.csv:
 			//var yMax = d3.max(histogram, function(d) { return d.y;});
-			//hard-coding 1845, the yMax for Warriors w 16 bins, for consistent scale w both charts:
-			var yMax = 1845;
+			//console.log(yMax);
+			var yMax = 28500;
 
-			var width = 330;
-			var height = 200;
+			var width = 740;
+			var height = 300;
 			var barpadding = 1;
 			var padding = 40;
+			var topPadding = 5;
 
-			var canvas = d3.select(container).append('svg')
-				.attr('width', width + 2 * padding)
-				.attr('height', height + 2 * padding);
+			//create histogram, first binding Warriors data
+			d3.csv(datafile1, function(data) {
 
-			var bars = canvas.selectAll('.bar')
-				.data(histogram)
-				.enter()
-				.append('g')
+				var maxTime = d3.max(data, function(d) { return d.time; });
+				var minTime = d3.min(data, function(d) { return d.time; });
+				var duration = maxTime - minTime;
 
-			console.log(d3.max(histogram, function(d) { return d.y;}));
-			bars.append('rect')
-				.attr('x', function(d) {return ((d.x - minTime) / duration * width) + padding;})
-				.attr('y', function(d) {return (height + padding) - height * (d.y / yMax);})
-				.attr('width', function(d) {return (d.dx / duration * width) - barpadding;})
-				.attr('height', function(d) { return height * (d.y / yMax);})
-				.attr('fill', "#006BB6")
-				.attr('opacity', 0.75);
+				
+				//console.log("minTime:", minTime, "maxTime:", maxTime);
+				//console.log("total seconds:", duration, "total minutes:", duration/60);
+				//console.log("minutes per bin:", duration/60/numBins);
+				
 
-			//Create scale functions
-			var xScale = d3.scale.linear()
-				.domain([minTime, maxTime])
-				.range([padding, width + padding]);
+				//convert units from unix timestamp to minutes since game start
+				var map = data.map(function(d) { return parseInt(d.time); })
 
-			var yScale = d3.scale.linear()
-				.domain([0, yMax / duration * numBins]) //converts to tweets per minute
-				.range([height + padding, padding]);
+				var histogram = d3.layout.histogram()
+					.bins(numBins)
+					(map)
 
-			//Define X axis
-			var xAxis = d3.svg.axis()
-							  .scale(xScale)
-							  .orient("bottom")
-							  .ticks(5);
+				var canvas = d3.select(container).append('svg')
+					.attr('width', width + 2 * padding)
+					.attr('height', height + padding + topPadding);
 
-			//Define Y axis
-			var yAxis = d3.svg.axis()
-							  .scale(yScale)
-							  .orient("left")
-							  .ticks(5);
+				var bars = canvas.selectAll('.bar')
+					.data(histogram)
+					.enter()
+					.append('g')
 
-			//Create X axis
-			canvas.append("g")
-				.attr("class", "axis")
-				.attr("transform", "translate(0," + (height + padding) + ")")
-				.call(xAxis);
+				//console.log(d3.max(histogram, function(d) { return d.y;}));
+				//console.log(histogram);
+
+				bars.append('rect')
+					.attr('x', function(d) {return ((d.x - minTime) / duration * width) + padding;})
+					.attr('y', function(d) {return (height + topPadding) - height * (d.y / yMax);})
+					.attr('width', function(d) {return (d.dx / duration * width) - barpadding;})
+					.attr('height', function(d) { return height * (d.y / yMax);})
+					.attr('fill', "#006BB6")
+					.attr('opacity', 1);
+
+				//Create scale functions
+				var xScale = d3.time.scale()
+					.domain([minTime*1000, maxTime*1000])
+					.range([padding, width + padding]);
+
+				var yScale = d3.scale.linear()
+					//convert absolute tweets to tweets per minute in domain
+					.domain([0, yMax / duration * 60 * numBins])
+					.range([height + topPadding, topPadding]);
+
+				//Define X axis
+				var xAxis = d3.svg.axis()
+					.scale(xScale)
+					.orient("bottom")
+					.ticks(9);
+
+				//Define Y axis
+				var yAxis = d3.svg.axis()
+					.scale(yScale)
+					.orient("left")
+					.ticks(5);
+
+				//Create X axis
+				canvas.append("g")
+					.attr("class", "axis")
+					.attr("transform", "translate(0," + (height + topPadding) + ")")
+					.call(xAxis);
 			
-			//Create Y axis
-			canvas.append("g")
-				.attr("class", "axis")
-				.attr("transform", "translate(" + padding + ",0)")
-				.call(yAxis);
+				//Create Y axis
+				canvas.append("g")
+					.attr("class", "axis")
+					.attr("transform", "translate(" + padding + ",0)")
+					.call(yAxis);
 
-		})
+				canvas.append("text") //label for x axis
+        			.attr("x", width / 2 + padding )
+        			.attr("y", height + topPadding + padding -5)
+        			.style("text-anchor", "middle")
+        			.style("class", "subtitle")
+        			.style("opacity", 1)
+        			.text("Pacific Time");
+
+			})
+			//add Cavaliers data to existing histogram
+			d3.csv(datafile2, function(data2) {
+
+				var maxTime = d3.max(data2, function(d) { return d.time; });
+				var minTime = d3.min(data2, function(d) { return d.time; });
+				var duration = maxTime - minTime;
+
+				//convert units from unix timestamp to minutes since game start
+				var map = data2.map(function(d) { return parseInt(d.time); })
+
+				var histogram = d3.layout.histogram()
+					.bins(numBins)
+					(map);
+
+				//we want the same svg appended above, so select svg, don't append new one
+				var canvas = d3.select(container).select('svg');
+
+				var bars = canvas.selectAll('.bar')
+					.data(histogram)
+					.enter()
+					.append('g');
+			
+				bars.append('rect')
+					.attr('x', function(d) {return ((d.x - minTime) / duration * width) + padding;})
+					.attr('y', function(d) {return (height + topPadding) - height * (d.y / yMax);})
+					.attr('width', function(d) {return (d.dx / duration * width) - barpadding;})
+					.attr('height', function(d) { return height * (d.y / yMax);})
+					.attr('fill', "#860038")
+					.attr('opacity', 1);
+
+			})
+
+/*broken
+			//add text note about maxout of warriors tweets in chart
+			var note = canvas.selectAll("text");
+			
+            //text to post with locations
+            var noteText = [['--As the Warriors won,', 0, 20],
+                     ['#Warriors tweets exceeded 1%', 100, 30],
+                     ['of global tweet traffic', 200, 40],
+                     ['and could not be fully counted', 300, 50],
+                     ['using the twitter streaming API', 400, 60]];
+            
+
+            var noteData = generateDataset(noteText);
+            var text = note
+                .data(noteData)
+                .enter()
+                .append("text")
+				.attr("x", function(d) {return d.x;})
+                .attr("y", function(d) {return d.y;})
+                .text(function(d) {return d.t;})
+                .attr("class", "subtitle")
+                .style("fill", "#7A7A7A")
+            	.style("opacity", 1);
+end broken*/ 
+			
+
 		}
 
-		    drawHistogram('data/WarriorsTweetTimes.csv', '#chart1');
-		    drawHistogram('data/CavaliersTweetTimes.csv', '#chart2');
+		    drawHistogram('data/WarriorsTweetTimes.csv', 'data/CavaliersTweetTimes.csv','#chart');
 
 
 		</script>

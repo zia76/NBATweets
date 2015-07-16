@@ -22,10 +22,10 @@ options, arguments = p.parse_args()
 query = options.queryString
 print >> sys.stderr, "query string is:", query
 
-consumer_key = ##enter credentials here
-consumer_secret = ##
-access_token = ##
-access_token_secret = ##
+consumer_key = "J9OUhD13POwrqkOqt6rinA"
+consumer_secret = "UUV1bK9ckvnhVbcNkyAMF9LWIkYVqIjhjdsPIVhIR0"
+access_token = "112764685-fMhGhOByEuWJWgkkM5LzTol3ORzn0Rp1zDfpi1Ec"
+access_token_secret = "nKxMGtucGKpfpMhxByAvFacMgFaeN7hE6hhDeYRf4"
 
 #This is a basic listener that just prints received tweets to stdout.
 class StdOutListener(StreamListener):
