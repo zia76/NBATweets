@@ -7,7 +7,7 @@ I wanted to combine data munging techniques with visualization, so I created a p
 - filter the tweets for those containing GPS coordinate information and output the coordinates in csv (readTwitterStream.py)
 - load the tweet coordinates into d3 and interactively visualize tweets on a global map (index.html)
 
-As an example use of this pipeline, I collected tweets matching 3 queries during the last game of the 2015 NBA finals on June 16th. The queries were: 'Warriors', 'Cavaliers', and 'NBAfinals'. The visualization includes buttons to select each search term, and when pressed, you can watch the tweets appear on the map chronologically as the game proceeded.
+As an example use of this pipeline, I collected tweets matching 3 queries during the last game of the 2015 NBA finals on June 16th. The queries were: 'Warriors', 'Cavaliers', and 'NBAfinals'. The visualization includes buttons to select each search term, and when pressed, you can watch the tweets appear on the map chronologically as the game proceeds.
 
 ####Design
 The focus, scope and design of this project went through a lot of changes. Originally I was collecting tweets from different US states and analyzing their sentiment, then mapping state positivity as a choropleth. That project got hung up on technical grounds: I found that far less than 1% of tweets contain coordinate information for mapping. Given that the twitter RESTful API caps results at 100 per request, and caps requests at 15 per 15-minute window, it would have taken an unreasonable amount of time to collect enough geo-located tweets on all 50 states. My other option for collecting large numbers of tweets was to use the streaming API, but I would need to choose an upcoming event with a known time and for which I could predict popular hashtags. This is how I settled upon mapping tweets during the NBA Finals.
@@ -30,7 +30,7 @@ User 2 was also confused as to what a single dot represented. He assumed (correc
 
 User 3 liked the animation but wanted some kind of summary statistics or quantification of the data. I responded by adding a few stats as text in the Pacific and Indian Oceans.
 
-The main critique in the review of my first project submission was that the visualization was exploratory not explanatory: it did not communicate a particular trend or draw a clear conclusion from the data. This was an entirely fair point. I didn't want to completely throw out my map, so I added a bar chart underneath to show tweets in time slices through the game's progression.
+The main critique in the review of my first project submission was that the visualization was exploratory not explanatory: it did not communicate a particular trend or draw a clear conclusion from the data. This was an entirely fair point. I didn't want to completely throw out my map, so I added a histogram underneath to show tweets in time slices through the game's progression. I also enlarged the scope of the timeline to include 6 hours before the game and about 30 minutes post-game for context.
 
 I also needed to fix a bug: d3.geomap has built-in zoom- and pan-on-click behavior that does not redraw appended data points scaled and transformed to the new map area. I had to modify the geomap source code to turn off these features. Eventually, I'd like to figure out how to redraw the data automatically upon zoom-in.
 
